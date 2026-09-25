@@ -2674,5 +2674,20 @@ function openPane(name){
   document.getElementById('pane-'+name).classList.add('on');
 }
 </script>
+
+<script>
+// Master doLogout — overrides all panel-level doLogout functions
+// This runs last so it wins
+function doLogout(){
+  // Hide all panels, show portal login
+  document.getElementById('panel-host').style.display='none';
+  document.querySelectorAll('.pane').forEach(function(el){el.classList.remove('on');});
+  document.getElementById('portal-login').style.display='flex';
+  document.getElementById('pu').value='';
+  document.getElementById('pp').value='';
+  // Reset portal background
+  document.body.style.background='';
+}
+</script>
 </body>
 </html>
