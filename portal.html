@@ -2589,11 +2589,17 @@ function showStatus(msg, type){
 <script>
 // All API calls point to Railway
 var API = "https://web-production-a1442.up.railway.app";
-var _fetch = window.fetch;
+// Patch all relative /api calls to use Railway URL
+var _origFetch = window.fetch.bind(window);
 window.fetch = function(url, opts) {
-  if (url && url.startsWith('/api')) url = API + url;
-  if (url && url.startsWith('/api')) url = API + url;
-  return _fetch(url, opts);
+  if (typeof url === 'string' && url.startsWith('/api')) url = API + url;
+  return _origFetch(url, opts);
+};
+// Also patch XMLHttpRequest for any panels using it
+var _XHRopen = XMLHttpRequest.prototype.open;
+XMLHttpRequest.prototype.open = function(method, url) {
+  if (typeof url === 'string' && url.startsWith('/api')) url = API + url;
+  return _XHRopen.apply(this, arguments);
 };
 
 var FINANCE_USERS = {"finance":"finance2026","finance_admin":"moderninfinity2026"};
