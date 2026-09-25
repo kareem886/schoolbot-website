@@ -2615,9 +2615,14 @@ async function pLogin(){
   // Finance (client-side)
   if(FINANCE_USERS[u] && FINANCE_USERS[u]===p){
     openPane('finance');
-    document.getElementById('fu').value=u;
-    document.getElementById('fp').value=p;
-    doLogin();
+    // Directly show finance dashboard - bypass finance panel's own login screen
+    var finPane = document.getElementById('pane-finance');
+    var ls = finPane.querySelector('#login-screen');
+    var mp = finPane.querySelector('#main-panel');
+    if(ls) ls.style.display='none';
+    if(mp) mp.style.display='block';
+    // Load students
+    if(typeof loadStudents === 'function') loadStudents();
     return;
   }
 
