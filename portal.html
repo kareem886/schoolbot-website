@@ -843,7 +843,7 @@ async function uploadPhoto(){
   st.style.display='block'; st.textContent='\u23f3 Compressing photo...';
   try{
     // Get WA credentials from server
-    var cfgRes = await fetch('/api/wa-config');
+    var cfgRes = await fetch('https://web-production-a1442.up.railway.app/api/wa-config');
     if(!cfgRes.ok){ st.textContent='❌ Config error '+cfgRes.status; return null; }
     var cfg = await cfgRes.json();
     // Resize + compress image in browser
@@ -899,7 +899,7 @@ async function doSend(){
     if(!mediaId){ btn.disabled=false; btn.textContent='📤 Send to Parents'; return; }
   }
   btn.textContent='⏳ Sending...';
-  fetch('/broadcast',{
+  fetch('https://web-production-a1442.up.railway.app/broadcast',{
     method:'POST',
     headers:{'Content-Type':'application/json'},
     body:JSON.stringify({
@@ -1983,7 +1983,7 @@ async function uploadPhoto(){
   st.style.display='block'; st.textContent='\u23f3 Compressing photo...';
   try{
     // Get WA credentials from server
-    var cfgRes = await fetch('/api/wa-config');
+    var cfgRes = await fetch('https://web-production-a1442.up.railway.app/api/wa-config');
     if(!cfgRes.ok){ st.textContent='❌ Config error '+cfgRes.status; return null; }
     var cfg = await cfgRes.json();
     // Resize + compress image in browser
@@ -2039,7 +2039,7 @@ async function doSend(){
     if(!mediaId){ btn.disabled=false; btn.textContent='📤 Send to Parents'; return; }
   }
   btn.textContent='⏳ Sending...';
-  fetch('/broadcast',{
+  fetch('https://web-production-a1442.up.railway.app/broadcast',{
     method:'POST',
     headers:{'Content-Type':'application/json'},
     body:JSON.stringify({
