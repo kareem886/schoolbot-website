@@ -1471,7 +1471,7 @@ document.addEventListener('keydown', e => {
 });
 </script></div>
   <div class="pane" id="pane-finance"><!-- LOGIN -->
-<div id="login-screen">
+<div id="fin-login-screen">
   <div class="login-box">
     <div class="login-logo">
       <div class="icon">💳</div>
@@ -1490,7 +1490,7 @@ document.addEventListener('keydown', e => {
 </div>
 
 <!-- MAIN -->
-<div id="main-panel">
+<div id="fin-main-panel">
   <div class="topbar">
     <div>
       <h1>💳 Finance Panel</h1>
@@ -2615,13 +2615,11 @@ async function pLogin(){
   // Finance (client-side)
   if(FINANCE_USERS[u] && FINANCE_USERS[u]===p){
     openPane('finance');
-    // Directly show finance dashboard - bypass finance panel's own login screen
-    var finPane = document.getElementById('pane-finance');
-    var ls = finPane.querySelector('#login-screen');
-    var mp = finPane.querySelector('#main-panel');
+    // Directly bypass finance panel's own login
+    var ls = document.getElementById('fin-login-screen');
+    var mp = document.getElementById('fin-main-panel');
     if(ls) ls.style.display='none';
-    if(mp) mp.style.display='block';
-    // Load students
+    if(mp){ mp.style.display='block'; }
     if(typeof loadStudents === 'function') loadStudents();
     return;
   }
