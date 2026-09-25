@@ -1128,7 +1128,7 @@ function doLogout(){
           <input type="number" id="ex-total" value="100" min="1" max="1000">
         </div>
       </div>
-      <button class="load-btn" id="loadBtn" onclick="loadStudents()">
+      <button class="load-btn" id="loadBtn" onclick="hwLoadStudents()">
         👥 Load Students for This Grade
       </button>
       <div id="ex-status" class="status"></div>
@@ -1330,7 +1330,7 @@ function clearStudents() {
   document.getElementById('ex-status').className = 'status';
 }
 
-async function loadStudents() {
+async function hwLoadStudents() {
   const grade = document.getElementById('ex-grade').value;
   if (!grade) { alert('Please select a grade first.'); return; }
   const btn = document.getElementById('loadBtn');
@@ -2284,7 +2284,7 @@ function clearStudents() {
   document.getElementById('ex-status').className = 'status';
 }
 
-async function loadStudents() {
+async function hwLoadStudents() {
   const grade = document.getElementById('ex-grade').value;
   if (!grade) { alert('Please select a grade first.'); return; }
   const btn = document.getElementById('loadBtn');
