@@ -390,7 +390,10 @@ nav{position:sticky;top:0;z-index:100;background:rgba(11,21,32,0.95);backdrop-fi
             <div class="contact-item"><div class="contact-item-icon"></div><div class="contact-item-text"><a href="mailto:kareem@smarvexai.com">kareem@smarvexai.com</a></div></div>
       <div class="contact-item"><div class="contact-item-icon"></div><div class="contact-item-text">Cairo, Egypt</div></div>
     </div>
-    <form class="contact-form" id="contact-form" action="https://formspree.io/f/kareem@smarvexai.com" method="POST">
+    <form class="contact-form" id="contact-form" action="https://api.web3forms.com/submit" method="POST">
+      <input type="hidden" name="access_key" value="5e313379-38b0-4ec0-baf4-ba9b4bdc7741">
+      <input type="hidden" name="subject" value="New enquiry from SmarvexAI website">
+      <input type="hidden" name="from_name" value="SmarvexAI Website">
       <input type="text" name="name" placeholder="Your name or company" required>
       <input type="tel" name="phone" placeholder="Phone number">
       <input type="email" name="email" placeholder="Email address" required>
@@ -404,8 +407,13 @@ nav{position:sticky;top:0;z-index:100;background:rgba(11,21,32,0.95);backdrop-fi
         var btn = document.getElementById('submit-btn');
         btn.textContent = 'Sending...';
         btn.disabled = true;
-        var res = await fetch('https://formspree.io/f/kareem@smarvexai.com', {method:'POST', body: new FormData(this), headers:{Accept:'application/json'}});
-        if (res.ok) {
+        var res = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          body: new FormData(this),
+          headers: {Accept: 'application/json'}
+        });
+        var json = await res.json();
+        if (json.success) {
           this.reset();
           btn.style.display = 'none';
           document.getElementById('form-success').style.display = 'block';
