@@ -849,40 +849,51 @@ langWrap.querySelectorAll('.lang-opt').forEach(btn=>{
         b.style.background='transparent';b.style.color='#8a90a4';
       }
     });
-    // Reset sound button label to invite re-play
+        // Restart audio with new language
     if(audioOn){
-      audioOn=false;
-      fadeAudio(0,0.4);
-      soundBtn.innerHTML='▶ <span>Play with voice</span>';
-      soundBtn.style.animation='btnPulse 2s ease-in-out infinite';
-      soundBtn.style.background='linear-gradient(135deg,rgba(124,92,255,0.9),rgba(34,211,238,0.9))';
-      soundBtn.style.border='1px solid rgba(255,255,255,0.3)';
-      soundBtn.style.boxShadow='0 10px 40px rgba(124,92,255,0.5)';
+      fadeAudio(0,0.3);
+      setTimeout(()=>{ fadeAudio(0.7,0.8); },400);
     }
     goto(0);
   };
 });
 
 // Sound / voiceover button
+// Replay button (replaces the old "Play with voice" button)
 const soundBtn=document.createElement('button');
 soundBtn.id='soundBtn';
-soundBtn.style.cssText='position:fixed;top:72px;right:28px;z-index:200;background:linear-gradient(135deg,rgba(124,92,255,0.9),rgba(34,211,238,0.9));backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.3);color:#fff;padding:12px 20px;border-radius:100px;cursor:pointer;font-family:inherit;font-size:13px;font-weight:700;display:flex;align-items:center;gap:8px;box-shadow:0 10px 40px rgba(124,92,255,0.5);animation:btnPulse 2s ease-in-out infinite';
-soundBtn.innerHTML='▶ <span>Play with voice</span>';
+soundBtn.style.cssText='position:fixed;top:72px;right:28px;z-index:200;background:rgba(10,13,22,0.7);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.18);color:#fff;padding:12px 20px;border-radius:100px;cursor:pointer;font-family:inherit;font-size:13px;font-weight:700;display:flex;align-items:center;gap:8px;display:none';
+soundBtn.innerHTML='↻ <span>Replay</span>';
 document.body.appendChild(soundBtn);
 
 const styleEl=document.createElement('style');
-styleEl.textContent='@keyframes btnPulse{0%,100%{transform:scale(1);box-shadow:0 10px 40px rgba(124,92,255,0.5)}50%{transform:scale(1.03);box-shadow:0 14px 50px rgba(34,211,238,0.7)}}';
+styleEl.textContent=`
+@keyframes btnPulse{0%,100%{transform:scale(1);box-shadow:0 10px 40px rgba(124,92,255,0.5)}50%{transform:scale(1.03);box-shadow:0 14px 50px rgba(34,211,238,0.7)}}
+#splash{position:fixed;inset:0;z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(5,7,15,0.92);backdrop-filter:blur(12px);cursor:pointer;transition:opacity 0.5s}
+#splash.hide{opacity:0;pointer-events:none}
+#splash-logo{width:72px;height:72px;margin-bottom:24px;filter:drop-shadow(0 0 24px rgba(34,211,238,0.5))}
+#splash-title{font-family:inherit;font-size:clamp(22px,4vw,36px);font-weight:800;background:linear-gradient(135deg,#7c5cff,#22d3ee);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px;text-align:center}
+#splash-sub{font-family:inherit;font-size:14px;color:#8a90a4;margin-bottom:40px;text-align:center}
+#splash-btn{background:linear-gradient(135deg,#7c5cff,#22d3ee);border:none;color:#fff;padding:16px 40px;border-radius:100px;font-family:inherit;font-size:16px;font-weight:700;cursor:pointer;animation:btnPulse 2s ease-in-out infinite;box-shadow:0 10px 40px rgba(124,92,255,0.5)}
+`;
 document.head.appendChild(styleEl);
+
+// Splash overlay — dismissed on first click, then audio starts
+const splash=document.createElement('div');
+splash.id='splash';
+splash.innerHTML=`
+  <img id="splash-logo" src="/logo.png" alt="SmarvexAI" onerror="this.style.display='none'">
+  <div id="splash-title">SmarvexAI · SchoolBot</div>
+  <div id="splash-sub">An AI-powered cinematic experience</div>
+  <button id="splash-btn">▶ &nbsp;Play with sound</button>
+`;
+document.body.appendChild(splash);
 
 function startEverything(){
   if(!audioCtx) initAudio();
   if(audioCtx.state==='suspended') audioCtx.resume();
   audioOn=true;
-  soundBtn.innerHTML='↻ <span>Replay</span>';
-  soundBtn.style.animation='none';
-  soundBtn.style.background='rgba(10,13,22,0.7)';
-  soundBtn.style.border='1px solid rgba(255,255,255,0.18)';
-  soundBtn.style.boxShadow='none';
+  soundBtn.style.display='flex';
   fadeAudio(0.7,1.2);
   vo.currentTime=0;
   vo.play().catch(e=>console.warn('voice play blocked or file missing:',e));
@@ -890,24 +901,28 @@ function startEverything(){
   document.getElementById('play').textContent='⏸ Pause';
   goto(0);
 }
-soundBtn.onclick=startEverything;
 
-// Auto-start on first user interaction (works if browser allows autoplay)
-function autoStartOnce(){
-  if(audioOn) return;
+splash.addEventListener('click',()=>{
+  splash.classList.add('hide');
+  setTimeout(()=>splash.remove(),500);
   startEverything();
-  document.removeEventListener('click',autoStartOnce);
-  document.removeEventListener('keydown',autoStartOnce);
-  document.removeEventListener('touchstart',autoStartOnce);
-}
-document.addEventListener('click',autoStartOnce);
-document.addEventListener('keydown',autoStartOnce);
-document.addEventListener('touchstart',autoStartOnce);
+});
 
-// Try autoplay on load
+soundBtn.onclick=()=>{
+  if(!audioCtx) initAudio();
+  if(audioCtx.state==='suspended') audioCtx.resume();
+  fadeAudio(0.7,1.2);
+  vo.currentTime=0;
+  vo.play().catch(()=>{});
+  playing=true;
+  document.getElementById('play').textContent='⏸ Pause';
+  goto(0);
+};
+
+// Try silent autoplay (works in some browsers without interaction)
 window.addEventListener('load',()=>{
   setTimeout(()=>{
-    vo.play().then(()=>{ if(!audioOn) startEverything(); }).catch(()=>{/* blocked — waits for click */});
+    vo.play().then(()=>{ if(!audioOn) startEverything(); splash.classList.add('hide'); setTimeout(()=>splash.remove(),500); }).catch(()=>{/* blocked — splash handles it */});
   },400);
 });
 
