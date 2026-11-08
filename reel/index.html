@@ -849,12 +849,15 @@ langWrap.querySelectorAll('.lang-opt').forEach(btn=>{
         b.style.background='transparent';b.style.color='#8a90a4';
       }
     });
-        // Restart audio with new language
-    if(audioOn){
-      fadeAudio(0,0.3);
-      setTimeout(()=>{ fadeAudio(0.7,0.8); },400);
-    }
+    // Restart reel + voice with new language
     goto(0);
+    if(audioOn){
+      vo.addEventListener('canplay', function playOnce(){
+        vo.removeEventListener('canplay', playOnce);
+        vo.currentTime=0;
+        vo.play().catch(e=>console.warn('ar voice blocked:',e));
+      });
+    }
   };
 });
 
