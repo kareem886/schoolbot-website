@@ -317,6 +317,107 @@ html,body{background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sa
 /* Back to site link */
 .back-link{position:fixed;bottom:70px;left:50%;transform:translateX(-50%);z-index:200;font-size:11px;color:var(--ink-dim);text-decoration:none;letter-spacing:0.08em;opacity:0.5;transition:opacity .2s}
 .back-link:hover{opacity:1}
+
+/* ── RESPONSIVE ─────────────────────────────────────────────── */
+@media(max-width:768px){
+  /* Scenes — tighter padding, scrollable on tall content */
+  .scene{padding:70px 20px 90px;align-items:flex-start;overflow-y:auto;overflow-x:hidden}
+
+  /* Corner logo */
+  .corner-logo{top:16px;left:16px}
+  .corner-logo .text{font-size:15px}
+
+  /* Controls bar */
+  .chrome{bottom:12px;gap:6px;padding:6px 10px;font-size:10px;max-width:calc(100vw - 32px)}
+  .chrome button{padding:5px 10px;font-size:10px}
+
+  /* Side dots — move closer to edge */
+  .dots{right:12px;gap:10px}
+
+  /* Back link */
+  .back-link{bottom:58px;font-size:10px}
+
+  /* Sound/replay button */
+  #soundBtn{top:14px;right:14px;padding:9px 14px;font-size:12px}
+
+  /* Lang toggle */
+  #lang-wrap{top:14px;left:14px!important}
+
+  /* ── Scene 1 ── */
+  #s1{align-items:center}
+  #s1 .big-logo{font-size:clamp(60px,20vw,120px)}
+  #s1 .tag{font-size:clamp(14px,4vw,20px)}
+
+  /* ── Scene 2 ── */
+  #s2 .wrap{max-width:100%}
+  #s2 .lead{font-size:clamp(36px,10vw,70px)}
+  #s2 .pains{grid-template-columns:1fr;gap:12px}
+  .pain-chip{padding:18px}
+  .pain-chip h3{font-size:16px}
+
+  /* ── Scene 3 ── */
+  #s3 .wrap{grid-template-columns:1fr;gap:28px;overflow-y:auto}
+  #s3 h2{font-size:clamp(36px,10vw,60px)}
+  #s3 .sub{font-size:14px}
+  .phone{width:min(280px,80vw);border-width:10px;border-radius:36px}
+  .wa-body{height:320px}
+  .sched-img .t{font-size:16px}
+
+  /* ── Scene 4 ── */
+  #s4 .wrap{grid-template-columns:1fr;gap:24px}
+  #s4 h2{font-size:clamp(36px,10vw,60px)}
+  #s4 .sub{font-size:14px}
+  .browser{transform:none!important}
+  .portal-body{min-height:auto;padding:14px}
+  .p-tabs{overflow-x:auto;flex-wrap:nowrap}
+  .p-hero-stats{grid-template-columns:repeat(3,1fr)}
+
+  /* ── Scene 5 ── */
+  #s5 .wrap{grid-template-columns:1fr;gap:24px}
+  #s5 h2{font-size:clamp(36px,10vw,60px)}
+  #s5 .sub{font-size:14px}
+  .sidebar-mock{flex-direction:column;min-height:auto;transform:none!important}
+  .sb-nav{width:100%;flex-direction:row;flex-wrap:wrap;padding:12px;gap:6px;border-right:none;border-bottom:1px solid var(--line)}
+  .sb-brand{display:none}
+  .sb-grid{grid-template-columns:repeat(3,1fr)}
+
+  /* ── Scene 6 ── */
+  #s6 .wrap{max-width:100%}
+  #s6 h2{font-size:clamp(36px,10vw,70px)}
+  #s6 .fg{grid-template-columns:repeat(2,1fr);gap:10px}
+  .f{padding:16px 14px}
+  .f h4{font-size:14px}
+
+  /* ── Scene 7 ── */
+  #s7 h2{font-size:clamp(36px,10vw,70px)}
+  .bi-grid{grid-template-columns:1fr;gap:16px}
+  .bi-card{padding:20px}
+
+  /* ── Scene 8 ── */
+  #s8 h2{font-size:clamp(36px,10vw,70px)}
+  .n-grid{grid-template-columns:repeat(2,1fr);gap:14px}
+  .n-card{padding:24px 16px}
+  .n-card .n{font-size:clamp(44px,12vw,80px)}
+
+  /* ── Scene 9 ── */
+  #s9{align-items:center}
+  #s9 .mega{font-size:clamp(60px,18vw,140px)}
+  #s9 .tag{font-size:clamp(14px,4vw,20px)}
+  #s9 .url{font-size:15px}
+
+  /* Splash */
+  #splash-btn{padding:14px 32px;font-size:14px}
+  #splash-title{font-size:clamp(18px,6vw,28px)}
+}
+
+@media(max-width:480px){
+  .scene{padding:64px 16px 86px}
+  #s6 .fg{grid-template-columns:1fr}
+  .n-grid{grid-template-columns:1fr 1fr}
+  #s3 .wrap{gap:20px}
+  .phone{width:min(260px,76vw)}
+  .wa-body{height:280px}
+}
 </style>
 </head>
 <body>
