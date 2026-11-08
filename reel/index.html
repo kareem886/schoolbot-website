@@ -917,13 +917,22 @@ document.getElementById('restart').onclick=()=>{
   if(audioOn){ vo.currentTime=0; vo.play().catch(()=>{}); }
 };
 
-// Hook Pause button to also pause/resume voice
+// Hook Pause button to also pause/resume voice + music
 const _pauseToggle=pauseToggle;
 pauseToggle=function(){
   _pauseToggle();
   if(audioOn){
-    if(playing) vo.play().catch(()=>{});
-    else vo.pause();
+    if(playing){
+      // Resuming — fade music back in and resume voice
+      if(audioCtx && audioCtx.state==='suspended') audioCtx.resume();
+      fadeAudio(vo.paused?0.7:0.22, 0.6);
+      vo.play().catch(()=>{});
+    } else {
+      // Pausing — fade music out and pause voice
+      fadeAudio(0, 0.4);
+      if(audioCtx) audioCtx.suspend();
+      vo.pause();
+    }
   }
 };
 document.getElementById('play').onclick=pauseToggle;
