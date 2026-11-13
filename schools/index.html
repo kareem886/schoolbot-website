@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SchoolBot by SmarvexAI — The complete school OS on WhatsApp + Web</title>
+<meta name="description" content="SchoolBot by SmarvexAI replaces the endless parent calls and paperwork with a bilingual WhatsApp bot, a beautiful parent portal, and a mission-control staff dashboard. Trusted by 2,000+ students.">
+<link rel="icon" href="/favicon.ico">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#05060a; --bg-2:#0a0d16;
+  --ink:#f5f6fa; --ink-dim:#8a90a4;
+  --accent:#7c5cff; --accent-2:#22d3ee; --mint:#4ade80; --amber:#fbbf24;
+  --line:rgba(255,255,255,0.08); --line-strong:rgba(255,255,255,0.18);
+  --surface:rgba(255,255,255,0.03); --surface-2:rgba(255,255,255,0.06);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.serif{font-family:'Instrument Serif',Georgia,serif;letter-spacing:-0.01em}
+.mono{font-family:'JetBrains Mono',monospace}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+
+/* NAV */
+.nav{position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:100;
+  background:rgba(10,13,22,0.75);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border:1px solid var(--line-strong);border-radius:100px;padding:8px 10px 8px 20px;display:flex;gap:4px;align-items:center;
+  box-shadow:0 10px 40px rgba(0,0,0,0.4);width:calc(100% - 40px);max-width:820px;justify-content:space-between}
+.nav .brand{font-family:'Instrument Serif',serif;font-size:19px;color:#fff;display:flex;align-items:center;gap:8px}
+.nav .brand-mark{width:22px;height:22px;border-radius:6px;background:linear-gradient(135deg,#7c5cff,#22d3ee);display:inline-block}
+.nav .links{display:flex;gap:4px;align-items:center}
+.nav .links a{color:var(--ink-dim);font-size:13px;font-weight:500;padding:8px 14px;border-radius:100px;transition:all .2s}
+.nav .links a:hover{color:var(--ink);background:var(--surface-2)}
+.nav .links a.cta{background:linear-gradient(135deg,#7c5cff,#22d3ee);color:#fff;font-weight:700;padding:8px 18px}
+@media(max-width:640px){.nav{padding:6px 8px 6px 14px}.nav .links a{display:none}.nav .links a.cta{display:inline-block;font-size:12px;padding:7px 14px}}
+
+/* Backdrop */
+.aurora{position:fixed;inset:-10%;z-index:0;pointer-events:none;filter:blur(120px);opacity:0.4}
+.aurora::before,.aurora::after{content:"";position:absolute;width:50vw;height:50vw;border-radius:50%}
+.aurora::before{background:radial-gradient(circle,#7c5cff 0%,transparent 70%);top:-10%;left:-10%;animation:fl1 24s ease-in-out infinite}
+.aurora::after{background:radial-gradient(circle,#22d3ee 0%,transparent 70%);bottom:-10%;right:-10%;animation:fl2 30s ease-in-out infinite}
+@keyframes fl1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(20vw,10vh) scale(1.2)}}
+@keyframes fl2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-15vw,-8vh) scale(1.3)}}
+.grid-bg{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:0.4;
+  background-image:linear-gradient(rgba(255,255,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.04) 1px,transparent 1px);
+  background-size:80px 80px;mask-image:radial-gradient(ellipse at center,black 20%,transparent 80%)}
+
+section{position:relative;z-index:2;padding:120px 32px}
+.wrap{max-width:1200px;margin:0 auto;position:relative}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;padding-top:140px}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:10px;padding:8px 18px;border:1px solid var(--line-strong);border-radius:100px;background:var(--surface);font-size:12.5px;color:var(--ink-dim);margin-bottom:28px;letter-spacing:0.02em;font-weight:500}
+.hero-eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--mint);box-shadow:0 0 10px var(--mint);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
+.hero h1{font-size:clamp(44px,8vw,96px);line-height:0.98;letter-spacing:-0.035em;font-weight:700;margin-bottom:28px;max-width:900px}
+.hero h1 .grad{background:linear-gradient(135deg,#7c5cff 0%,#22d3ee 50%,#4ade80 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero h1 .serif-em{font-family:'Instrument Serif',serif;font-style:italic;font-weight:400}
+.hero .sub{font-size:clamp(17px,2vw,21px);color:var(--ink-dim);max-width:680px;margin-bottom:40px;font-weight:400;line-height:1.55}
+.hero .sub .k{color:var(--ink);font-weight:500}
+.btn-row{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:15px 28px;border-radius:12px;font-weight:600;font-size:15px;transition:all .2s;cursor:pointer;border:0;font-family:inherit}
+.btn-primary{background:linear-gradient(135deg,#7c5cff,#22d3ee);color:#fff;box-shadow:0 10px 32px rgba(124,92,255,0.4)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 14px 40px rgba(124,92,255,0.55)}
+.btn-ghost{background:var(--surface-2);color:var(--ink);border:1px solid var(--line-strong)}
+.btn-ghost:hover{background:var(--surface);border-color:var(--accent)}
+
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;margin-top:70px;max-width:760px;padding-top:40px;border-top:1px solid var(--line)}
+.hero-stat .n{font-family:'Instrument Serif',serif;font-size:44px;line-height:1;background:linear-gradient(180deg,#fff,#8a90a4);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero-stat .l{font-size:12px;color:var(--ink-dim);margin-top:6px;letter-spacing:0.06em;text-transform:uppercase;font-weight:600}
+@media(max-width:640px){.hero-stats{grid-template-columns:repeat(2,1fr);gap:20px}}
+
+/* Section header */
+.eyebrow{font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:var(--accent-2);font-weight:700;margin-bottom:20px;display:flex;align-items:center;gap:12px}
+.eyebrow::before{content:"";width:28px;height:1px;background:var(--accent-2)}
+.section-title{font-size:clamp(36px,5.5vw,68px);line-height:1.02;letter-spacing:-0.025em;font-weight:700;margin-bottom:22px;max-width:900px}
+.section-title .grad{background:linear-gradient(135deg,#7c5cff,#22d3ee);-webkit-background-clip:text;background-clip:text;color:transparent}
+.section-sub{font-size:17px;color:var(--ink-dim);max-width:680px;margin-bottom:60px;line-height:1.6}
+
+/* FEATURE SPLIT (text + mockup) */
+.feat{display:grid;grid-template-columns:1fr 1.15fr;gap:80px;align-items:center;padding:60px 0;border-top:1px solid var(--line)}
+.feat.rev{grid-template-columns:1.15fr 1fr}
+.feat.rev .feat-vis{order:-1}
+.feat-tag{font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent-2);font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.feat-tag::before{content:"";width:20px;height:1px;background:var(--accent-2)}
+.feat h2{font-family:'Inter',sans-serif;font-size:clamp(32px,4.5vw,52px);line-height:1.02;letter-spacing:-0.025em;font-weight:700;margin-bottom:18px}
+.feat h2 em{font-style:normal;background:linear-gradient(135deg,#7c5cff,#22d3ee);-webkit-background-clip:text;background-clip:text;color:transparent}
+.feat p{font-size:16px;color:var(--ink-dim);margin-bottom:24px;line-height:1.65;max-width:480px}
+.feat ul{list-style:none;display:flex;flex-direction:column;gap:12px;max-width:480px}
+.feat ul li{display:flex;gap:12px;color:var(--ink-dim);font-size:15px;line-height:1.5}
+.feat ul li::before{content:"✦";color:var(--mint);font-size:14px;flex-shrink:0;margin-top:3px}
+.feat ul li b{color:var(--ink);font-weight:600}
+@media(max-width:860px){.feat,.feat.rev{grid-template-columns:1fr;gap:40px}.feat.rev .feat-vis{order:0}}
+
+/* MOCKUPS */
+.phone{width:290px;margin:0 auto;background:#0b0f0d;border:12px solid #1a1d23;border-radius:42px;padding:0;box-shadow:0 40px 100px rgba(0,0,0,0.7);position:relative;overflow:hidden}
+.phone::before{content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);width:90px;height:22px;background:#1a1d23;border-radius:0 0 14px 14px;z-index:5}
+.wa-head{background:#075e54;padding:32px 14px 10px;color:#fff;display:flex;align-items:center;gap:10px}
+.wa-head .av{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#7c5cff,#22d3ee);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px}
+.wa-head .n{font-size:13px;font-weight:600}
+.wa-head .s{font-size:10px;opacity:0.7}
+.wa-body{background:#0b141a;padding:14px 10px;min-height:380px;display:flex;flex-direction:column;gap:8px}
+.bubble{max-width:82%;padding:8px 11px;border-radius:12px;font-size:12.5px;line-height:1.45}
+.bubble.in{background:#202c33;color:#e9edef;border-bottom-left-radius:4px;align-self:flex-start}
+.bubble.out{background:#005c4b;color:#e9edef;border-bottom-right-radius:4px;align-self:flex-end}
+.bubble .t{font-size:9px;opacity:0.6;margin-left:6px}
+
+.browser{background:#0a0d16;border:1px solid var(--line-strong);border-radius:16px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,0.5)}
+.browser-bar{display:flex;align-items:center;gap:8px;padding:11px 14px;background:#0f131c;border-bottom:1px solid var(--line)}
+.browser-bar .d{width:11px;height:11px;border-radius:50%}
+.browser-bar .d.r{background:#fb7185}.browser-bar .d.y{background:#fbbf24}.browser-bar .d.g{background:#4ade80}
+.browser-bar .url{margin-left:14px;background:#050710;padding:6px 14px;border-radius:7px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink-dim);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.portal-body{padding:22px;background:linear-gradient(180deg,#07090f,#050710);min-height:420px}
+.p-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+.p-user{display:flex;align-items:center;gap:10px}
+.p-av{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#fbbf24,#fb7185);display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff}
+.p-user .n{font-size:13px;font-weight:600}
+.p-user .s{font-size:11px;color:var(--ink-dim)}
+.p-tabs{display:flex;gap:4px;padding:5px;background:var(--surface);border-radius:11px;margin-bottom:16px;overflow:hidden}
+.p-tab{padding:8px 13px;font-size:11px;font-weight:500;color:var(--ink-dim);border-radius:8px;white-space:nowrap}
+.p-tab.active{background:linear-gradient(135deg,#7c5cff,#22d3ee);color:#fff}
+.p-card{background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:16px;margin-bottom:10px}
+.p-card h4{font-size:11px;letter-spacing:0.1em;color:var(--ink-dim);text-transform:uppercase;margin-bottom:10px;font-weight:600}
+.p-hero-name{font-family:'Instrument Serif',serif;font-size:22px;margin-bottom:2px}
+.p-hero-meta{font-size:11px;color:var(--ink-dim);margin-bottom:14px}
+.p-hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.p-stat{background:var(--surface-2);border-radius:8px;padding:10px}
+.p-stat .l{font-size:9px;color:var(--ink-dim);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px}
+.p-stat .v{font-size:13px;font-weight:700}
+
+/* FEATURE GRID (6+ modules) */
+.grid-head{text-align:center;margin-bottom:60px}
+.grid-head .eyebrow{justify-content:center}
+.grid-head .section-title{margin-left:auto;margin-right:auto}
+.grid-head .section-sub{margin-left:auto;margin-right:auto}
+.mods{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+.mod{padding:30px 26px;background:var(--surface);border:1px solid var(--line);border-radius:18px;transition:all .3s;position:relative;overflow:hidden}
+.mod::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,var(--c1,#7c5cff),var(--c2,#22d3ee));opacity:0;transition:opacity .3s;z-index:0}
+.mod:hover{transform:translateY(-6px);border-color:var(--line-strong)}
+.mod:hover::before{opacity:0.08}
+.mod>*{position:relative;z-index:1}
+.mod-ic{width:50px;height:50px;border-radius:13px;background:linear-gradient(135deg,var(--c1,#7c5cff),var(--c2,#22d3ee));display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:20px}
+.mod h4{font-size:19px;font-weight:600;margin-bottom:8px;letter-spacing:-0.01em}
+.mod p{font-size:14px;color:var(--ink-dim);line-height:1.55}
+
+/* BILINGUAL */
+.bi-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:40px}
+.bi-card{padding:30px;background:var(--surface);border:1px solid var(--line);border-radius:22px;position:relative}
+.bi-card .flag{position:absolute;top:22px;right:22px;font-size:22px}
+.bi-card.rtl{direction:rtl}
+.bi-card.rtl .flag{right:auto;left:22px}
+.bi-card h4{font-size:11px;letter-spacing:0.12em;color:var(--ink-dim);text-transform:uppercase;font-weight:600;margin-bottom:16px;text-align:left}
+.bi-card.rtl h4{text-align:right}
+.bi-chat{background:var(--surface-2);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:8px}
+@media(max-width:720px){.bi-grid{grid-template-columns:1fr}}
+
+/* CTA */
+.cta{text-align:center;padding:160px 32px 120px;background:
+  radial-gradient(ellipse at 30% 20%,rgba(124,92,255,0.3) 0%,transparent 50%),
+  radial-gradient(ellipse at 70% 80%,rgba(34,211,238,0.2) 0%,transparent 50%),
+  var(--bg)}
+.cta h2{font-family:'Instrument Serif',serif;font-size:clamp(50px,8vw,110px);line-height:0.95;letter-spacing:-0.03em;margin-bottom:24px}
+.cta h2 em{font-style:italic;background:linear-gradient(135deg,#7c5cff,#22d3ee,#4ade80);-webkit-background-clip:text;background-clip:text;color:transparent}
+.cta p{font-size:19px;color:var(--ink-dim);max-width:600px;margin:0 auto 40px}
+.cta .btn-row{justify-content:center}
+
+/* FOOTER */
+footer{padding:50px 32px;border-top:1px solid var(--line);text-align:center;color:var(--ink-dim);font-size:13px;background:var(--bg-2)}
+footer a{color:var(--accent-2)}
+footer .ft-brand{font-family:'Instrument Serif',serif;color:#fff;font-size:18px;margin-bottom:8px}
+
+/* Reveal anim */
+.reveal{opacity:0;transform:translateY(30px);transition:all .9s cubic-bezier(.2,.8,.2,1)}
+.reveal.on{opacity:1;transform:translateY(0)}
+
+@media(max-width:640px){
+  section{padding:80px 20px}
+  .hero{padding-top:120px;min-height:auto}
+  .cta{padding:100px 20px 80px}
+  .feat{padding:40px 0}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="/" class="brand"><span class="brand-mark"></span>SmarvexAI</a>
+  <div class="links">
+    <a href="#features">Features</a>
+    <a href="#modules">Modules</a>
+    <a href="/reel/" class="cta">▶ Watch 60s Demo</a>
+  </div>
+</nav>
+
+<div class="aurora"></div>
+<div class="grid-bg"></div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-eyebrow"><span class="dot"></span>SchoolBot by SmarvexAI · Live in Egyptian schools</div>
+    <h1>The <span class="serif-em">complete</span><br>school <span class="grad">operating system</span></h1>
+    <p class="sub">One <span class="k">WhatsApp bot</span>, one <span class="k">parent portal</span>, one <span class="k">staff dashboard</span> — and every repetitive question answered in under a second, 24/7, in Arabic or English.</p>
+    <div class="btn-row">
+      <a href="mailto:kareemelmoghazy123@gmail.com?subject=SchoolBot Demo Request" class="btn btn-primary">📅 Book a Demo</a>
+      <a href="/reel/" class="btn btn-ghost">▶ Watch 60-second Reel</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="n">2,000+</div><div class="l">Students</div></div>
+      <div class="hero-stat"><div class="n">150+</div><div class="l">Staff</div></div>
+      <div class="hero-stat"><div class="n">10</div><div class="l">Modules</div></div>
+      <div class="hero-stat"><div class="n">EN·AR</div><div class="l">Bilingual</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- WHATSAPP BOT -->
+<section id="features">
+  <div class="wrap">
+    <div class="feat">
+      <div>
+        <div class="feat-tag">Module 01 · WhatsApp Bot</div>
+        <h2>The bot that <em>never sleeps</em>.</h2>
+        <p>Parents already live on WhatsApp. SchoolBot meets them there — verifies their phone, scopes every answer to their own children, and replies in seconds. Any time, any language.</p>
+        <ul>
+          <li><span><b>Smart routing</b> — every parent verified by phone, every answer scoped to their own kids.</span></li>
+          <li><span><b>Rich media</b> — schedules as photos, results as tables, announcements with each parent's name.</span></li>
+          <li><span><b>Full Arabic</b> — natively written, idiom-aware, right-to-left, recognizes Egyptian typing (ابنى / ابني).</span></li>
+          <li><span><b>Zero onboarding</b> — no app install, no account creation. Just WhatsApp.</span></li>
+        </ul>
+      </div>
+      <div class="feat-vis">
+        <div class="phone">
+          <div class="wa-head">
+            <div class="av">S</div>
+            <div><div class="n">SchoolBot</div><div class="s">online</div></div>
+          </div>
+          <div class="wa-body">
+            <div class="bubble out">Hi 👋<div class="t">10:14</div></div>
+            <div class="bubble in">Welcome! 🎓<br>📊 Results · 📅 Schedule<br>🗓 Weekly plan · 💰 Fees<br>📋 Attendance · 📢 News<br>🪪 Student ID · 📧 Email<div class="t">10:14</div></div>
+            <div class="bubble out">STU001 monthly<div class="t">10:14</div></div>
+            <div class="bubble in">📊 <b>Monthly — October</b><br>Arabic · 14/15<br>Math · 15/15<br>English · 13/15<br><b>Total · 56/60</b><div class="t">10:15</div></div>
+            <div class="bubble out">ابنى غائب النهارده؟<div class="t">10:15</div></div>
+            <div class="bubble in">✅ <b>Ahmed</b> — حاضر النهارده<br>📊 إجمالي الغياب: 0 يوم<div class="t">10:15</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PARENT PORTAL -->
+    <div class="feat rev">
+      <div>
+        <div class="feat-tag">Module 02 · Parent Portal</div>
+        <h2>A home for <em>every parent</em>.</h2>
+        <p>A beautiful, secure web portal. One login per student. Everything a parent needs — fees, exams, schedules, weekly plans, attendance, school info — in one place.</p>
+        <ul>
+          <li><span><b>Live attendance</b> — "In school · Late · Absent" updates the moment the admin saves.</span></li>
+          <li><span><b>Beautiful ID card</b> with QR for printing or showing at the gate.</span></li>
+          <li><span><b>Monthly results</b> — October, November & Term 1 side-by-side, gated by fee payment.</span></li>
+          <li><span><b>Dark mode, mobile-first, bilingual with full RTL</b>. Feels like a product, not a spreadsheet.</span></li>
+        </ul>
+      </div>
+      <div class="feat-vis">
+        <div class="browser">
+          <div class="browser-bar"><div class="d r"></div><div class="d y"></div><div class="d g"></div>
+            <div class="url">moderninfinityportal.smarvexai.com/parent-portal</div></div>
+          <div class="portal-body">
+            <div class="p-top">
+              <div class="p-user"><div class="p-av">H</div><div><div class="n">Welcome, Hady</div><div class="s">ID STU001</div></div></div>
+              <div style="display:flex;gap:6px"><div style="padding:5px 11px;background:var(--surface-2);border:1px solid var(--line);border-radius:100px;font-size:10px;color:var(--ink-dim)">🌐 العربية</div></div>
+            </div>
+            <div class="p-tabs">
+              <div class="p-tab active">🏠 Overview</div>
+              <div class="p-tab">📝 Exams</div>
+              <div class="p-tab">📊 Monthly</div>
+              <div class="p-tab">📅 Weekly</div>
+              <div class="p-tab">🪪 ID</div>
+            </div>
+            <div class="p-card">
+              <div class="p-hero-name">Ahmed Hady Ahmed</div>
+              <div class="p-hero-meta">KG1 · Section A — Golden Woods · ID STU001</div>
+              <div class="p-hero-stats">
+                <div class="p-stat"><div class="l">Fees</div><div class="v" style="color:var(--mint)">✓ Paid</div></div>
+                <div class="p-stat"><div class="l">Today</div><div class="v" style="color:var(--mint)">🟢 In school</div></div>
+                <div class="p-stat"><div class="l">Attendance</div><div class="v">94%</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STAFF PORTAL -->
+    <div class="feat">
+      <div>
+        <div class="feat-tag">Module 03 · Staff Portal</div>
+        <h2>Mission control <em>for the office</em>.</h2>
+        <p>One dashboard that controls the whole student life-cycle. Upload a schedule once, broadcast to 2,000 parents in a click, enter exam marks that instantly reach WhatsApp + portal.</p>
+        <ul>
+          <li><span><b>Role-scoped admins</b> — KG, Primary, Prep, Secondary each see only their grades.</span></li>
+          <li><span><b>Attendance dashboard</b> with one-tap Present / Absent / Late pills.</span></li>
+          <li><span><b>Broadcast engine</b> — personalized by each parent's name, scoped by grade.</span></li>
+          <li><span><b>Enter once, delivered everywhere</b> — WhatsApp + portal always in sync.</span></li>
+        </ul>
+      </div>
+      <div class="feat-vis">
+        <div class="browser">
+          <div class="browser-bar"><div class="d r"></div><div class="d y"></div><div class="d g"></div>
+            <div class="url">moderninfinityportal.smarvexai.com/portal</div></div>
+          <div class="portal-body" style="padding:18px">
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px">
+              <div class="p-stat" style="text-align:center;padding:14px"><div style="font-family:'Instrument Serif',serif;font-size:26px;line-height:1">1,503</div><div style="font-size:9px;color:var(--ink-dim);margin-top:4px;text-transform:uppercase;letter-spacing:0.08em">Students</div></div>
+              <div class="p-stat" style="text-align:center;padding:14px"><div style="font-family:'Instrument Serif',serif;font-size:26px;line-height:1">94%</div><div style="font-size:9px;color:var(--ink-dim);margin-top:4px;text-transform:uppercase;letter-spacing:0.08em">Attendance</div></div>
+              <div class="p-stat" style="text-align:center;padding:14px"><div style="font-family:'Instrument Serif',serif;font-size:26px;line-height:1">87</div><div style="font-size:9px;color:var(--ink-dim);margin-top:4px;text-transform:uppercase;letter-spacing:0.08em">Unpaid</div></div>
+            </div>
+            <div style="font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-dim);margin-bottom:10px;font-weight:600">Recent activity</div>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <div style="display:flex;justify-content:space-between;padding:10px 12px;background:var(--surface);border-radius:8px;font-size:11.5px"><span>Quiz result — Science</span><span style="background:rgba(74,222,128,0.18);color:var(--mint);padding:2px 8px;border-radius:100px;font-size:9.5px;font-weight:700">Published</span></div>
+              <div style="display:flex;justify-content:space-between;padding:10px 12px;background:var(--surface);border-radius:8px;font-size:11.5px"><span>KG1 schedule uploaded</span><span style="background:rgba(74,222,128,0.18);color:var(--mint);padding:2px 8px;border-radius:100px;font-size:9.5px;font-weight:700">Live</span></div>
+              <div style="display:flex;justify-content:space-between;padding:10px 12px;background:var(--surface);border-radius:8px;font-size:11.5px"><span>Term 1 fees reminder</span><span style="background:rgba(251,191,36,0.18);color:var(--amber);padding:2px 8px;border-radius:100px;font-size:9.5px;font-weight:700">Pending</span></div>
+              <div style="display:flex;justify-content:space-between;padding:10px 12px;background:var(--surface);border-radius:8px;font-size:11.5px"><span>Attendance — Prep 2</span><span style="background:rgba(74,222,128,0.18);color:var(--mint);padding:2px 8px;border-radius:100px;font-size:9.5px;font-weight:700">Saved</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MODULE GRID -->
+<section id="modules" style="padding-top:60px">
+  <div class="wrap">
+    <div class="grid-head">
+      <div class="eyebrow">Every module</div>
+      <h2 class="section-title">Ten modules.<br>One <span class="grad">backend</span>.</h2>
+      <p class="section-sub">Not ten vendors stitched together. One coherent product — everything a school needs to run, connected and bilingual.</p>
+    </div>
+    <div class="mods">
+      <div class="mod" style="--c1:#7c5cff;--c2:#a78bfa"><div class="mod-ic">📊</div><h4>Monthly Evaluation</h4><p>Oct / Nov / Term 1 side-by-side for every subject, with grade-specific tabs.</p></div>
+      <div class="mod" style="--c1:#22d3ee;--c2:#60a5fa"><div class="mod-ic">📝</div><h4>Exams &amp; Quizzes</h4><p>Quizzes always visible. Term results gated by fee payment status.</p></div>
+      <div class="mod" style="--c1:#4ade80;--c2:#22d3ee"><div class="mod-ic">📅</div><h4>Schedules</h4><p>Upload a photo once — WhatsApp and the portal deliver it instantly.</p></div>
+      <div class="mod" style="--c1:#fbbf24;--c2:#fb7185"><div class="mod-ic">🗓️</div><h4>Weekly Plans</h4><p>Thu / Fri / Sat auto-jump to next week's plan so parents are never behind.</p></div>
+      <div class="mod" style="--c1:#fb7185;--c2:#f472b6"><div class="mod-ic">📢</div><h4>Announcements</h4><p>Broadcast to every parent, personalized with their child's name.</p></div>
+      <div class="mod" style="--c1:#a78bfa;--c2:#7c5cff"><div class="mod-ic">💰</div><h4>Fees &amp; Balance</h4><p>Per-student balance. Auto-gates sensitive results until fees are paid.</p></div>
+      <div class="mod" style="--c1:#22d3ee;--c2:#4ade80"><div class="mod-ic">📋</div><h4>Attendance</h4><p>Role-scoped KG/Primary/Prep/Secondary admins. Live status for every parent.</p></div>
+      <div class="mod" style="--c1:#60a5fa;--c2:#a78bfa"><div class="mod-ic">🚌</div><h4>Bus Routes</h4><p>Pickup times and driver contact per area, highlighted to the parent's route.</p></div>
+      <div class="mod" style="--c1:#fb7185;--c2:#fbbf24"><div class="mod-ic">🪪</div><h4>Student ID Card</h4><p>Printable card with QR, avatar, school email — ready for the gate or lanyard.</p></div>
+      <div class="mod" style="--c1:#4ade80;--c2:#a78bfa"><div class="mod-ic">🏫</div><h4>Admissions</h4><p>Open or closed, deposit, deadlines — with a direct enquiry line to the office.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- BILINGUAL -->
+<section style="padding-top:60px">
+  <div class="wrap">
+    <div class="grid-head">
+      <div class="eyebrow">EN · AR</div>
+      <h2 class="section-title">Built <em style="font-style:italic;font-family:'Instrument Serif',serif;background:linear-gradient(135deg,#7c5cff,#22d3ee);-webkit-background-clip:text;background-clip:text;color:transparent">bilingual</em>.<br>From day one.</h2>
+      <p class="section-sub">Not Google-translated. Every message, every menu, every UI — natively written in Arabic and English, with full right-to-left support and Egyptian-dialect recognition.</p>
+    </div>
+    <div class="bi-grid">
+      <div class="bi-card">
+        <div class="flag">🇬🇧</div>
+        <h4>English</h4>
+        <div class="bi-chat">
+          <div class="bubble out">Primary 5 monthly results</div>
+          <div class="bubble in">📊 <b>Monthly Evaluation</b><br>Arabic · 14/15<br>Math · 15/15<br>English · 13/15<br>Science · 14/15<br><b>Total · 56/60 (93%)</b></div>
+        </div>
+      </div>
+      <div class="bi-card rtl">
+        <div class="flag">🇪🇬</div>
+        <h4>العربية</h4>
+        <div class="bi-chat">
+          <div class="bubble out">نتائج التقييم الشهري</div>
+          <div class="bubble in">📊 <b>التقييم الشهري</b><br>عربي · ١٥/١٤<br>رياضيات · ١٥/١٥<br>إنجليزي · ١٥/١٣<br>علوم · ١٥/١٤<br><b>المجموع · ٦٠/٥٦ (٩٣٪)</b></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="wrap">
+    <h2>Ready to <em>stop answering<br>the same ten questions</em>?</h2>
+    <p>Pick a 20-minute slot. We'll walk through the full product with your school's data, live.</p>
+    <div class="btn-row">
+      <a href="mailto:kareemelmoghazy123@gmail.com?subject=SchoolBot Demo Request" class="btn btn-primary">📅 Book a Demo</a>
+      <a href="/reel/" class="btn btn-ghost">▶ Watch the 60-second Reel</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="ft-brand">SmarvexAI</div>
+  <div>© 2026 · Built in Cairo · Live in schools</div>
+  <div style="margin-top:10px"><a href="/">← Back to SmarvexAI</a> · <a href="/privacy.html">Privacy</a></div>
+</footer>
+
+<script>
+const io = new IntersectionObserver(function(entries){
+  entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('on'); io.unobserve(e.target); } });
+},{threshold:0.1});
+document.querySelectorAll('.feat, .mod, .bi-card, .hero-stat').forEach(function(el){
+  el.classList.add('reveal'); io.observe(el);
+});
+</script>
+</body>
+</html>

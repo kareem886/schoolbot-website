@@ -56,6 +56,8 @@ nav{position:fixed;top:0;width:100%;z-index:100;background:rgba(11,21,32,0.95);b
 .btn-primary{background:var(--teal);color:#000;font-family:'Inter',sans-serif;font-weight:700;font-size:0.95rem;padding:13px 28px;border-radius:10px;text-decoration:none;display:inline-block;transition:transform .2s,box-shadow .2s}
 .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,200,200,0.3)}
 .btn-secondary{background:transparent;border:1.5px solid rgba(120,160,190,0.3);color:var(--grey);font-family:'Inter',sans-serif;font-weight:500;font-size:0.95rem;padding:13px 28px;border-radius:10px;text-decoration:none;display:inline-block;transition:border-color .2s,color .2s}
+.btn-schools{background:linear-gradient(135deg,#7c5cff 0%, #22d3ee 100%);color:#fff;font-family:'Inter',sans-serif;font-weight:700;font-size:0.95rem;padding:13px 24px;border-radius:10px;text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:transform .2s,box-shadow .2s;box-shadow:0 8px 24px rgba(124,92,255,0.35);position:relative;overflow:hidden}
+.btn-schools:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(124,92,255,0.5)}
 .btn-secondary:hover{border-color:var(--white);color:var(--white)}
 
 /* PHONE MOCKUP */
@@ -228,6 +230,8 @@ nav{position:sticky;top:0;z-index:100;background:rgba(11,21,32,0.95);backdrop-fi
 .nav-links{display:flex;align-items:center;gap:4px}
 .nav-links a{color:var(--grey);text-decoration:none;font-size:0.9rem;padding:6px 14px;border-radius:6px;transition:color .2s;white-space:nowrap}.nav-links a:hover{color:var(--white)}
 .nav-cta{background:var(--teal)!important;color:#000!important;font-weight:700!important;border-radius:8px!important}
+.nav-schools{background:linear-gradient(135deg,rgba(124,92,255,0.15),rgba(34,211,238,0.15))!important;color:#fff!important;font-weight:700!important;border-radius:8px!important;padding:8px 14px!important;border:1px solid rgba(124,92,255,0.4)!important;transition:all .2s!important}
+.nav-schools:hover{background:linear-gradient(135deg,#7c5cff,#22d3ee)!important;border-color:transparent!important}
 /* Hamburger */
 .nav-hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;background:none;border:none}
 .nav-hamburger span{display:block;width:22px;height:2px;background:var(--white);border-radius:2px;transition:all .3s}
@@ -286,6 +290,7 @@ nav{position:sticky;top:0;z-index:100;background:rgba(11,21,32,0.95);backdrop-fi
     <a href="#example" onclick="document.querySelector('.nav-links').classList.remove('open');document.querySelector('.nav-hamburger').classList.remove('open')">Solutions</a>
     <a href="#how" onclick="document.querySelector('.nav-links').classList.remove('open');document.querySelector('.nav-hamburger').classList.remove('open')">How It Works</a>
     <a href="#about" onclick="document.querySelector('.nav-links').classList.remove('open');document.querySelector('.nav-hamburger').classList.remove('open')">About</a>
+    <a href="/schools/" class="nav-schools" onclick="document.querySelector('.nav-links').classList.remove('open');document.querySelector('.nav-hamburger').classList.remove('open')">🏫 For Schools</a>
     <a href="#contact" class="nav-cta" onclick="document.querySelector('.nav-links').classList.remove('open');document.querySelector('.nav-hamburger').classList.remove('open')">Get In Touch</a>
   </div>
 </nav>
@@ -298,6 +303,7 @@ nav{position:sticky;top:0;z-index:100;background:rgba(11,21,32,0.95);backdrop-fi
     <p>SmarvexAI builds custom intelligent automation solutions that eliminate repetitive work, streamline operations, and help businesses scale — powered by AI that actually understands your business.</p>
     <div class="hero-btns">
       <a href="#contact" class="btn-primary">Start a Project</a>
+      <a href="/schools/" class="btn-schools">🏫 For Schools →</a>
       <a href="#example" class="btn-secondary">See an Example →</a>
     </div>
   </div>
