@@ -548,18 +548,41 @@ nav{position:sticky;top:0;z-index:100;background:rgba(11,21,32,0.95);backdrop-fi
       <div id="form-success" style="display:none;background:rgba(0,200,200,0.08);border:1px solid rgba(0,200,200,0.25);border-radius:10px;padding:16px;text-align:center;color:var(--teal);font-weight:600;">Message sent! We will get back to you within 24 hours.</div>
     </form>
     <script>
+      // Primary endpoint: Google Apps Script → writes to a dedicated
+      // "SmarvexAI Leads" sheet AND emails kareemelmoghazy123@gmail.com instantly.
+      // Fallback: Web3Forms (kept so a lead is never lost if either goes down).
+      var GAS_URL = 'https://script.google.com/macros/s/AKfycbz4G7Mh8qOw1MQ_t4zCSRvQ04TE9_3gErr1mJIbhFhsQaQuCT4QD59PPhYksEpo3d7p/exec';
+      var W3F_URL = 'https://api.web3forms.com/submit';
+
       document.getElementById('contact-form').addEventListener('submit', async function(e) {
         e.preventDefault();
         var btn = document.getElementById('submit-btn');
         btn.textContent = 'Sending...';
         btn.disabled = true;
-        var res = await fetch('https://api.web3forms.com/submit', {
-          method: 'POST',
-          body: new FormData(this),
-          headers: {Accept: 'application/json'}
-        });
-        var json = await res.json();
-        if (json.success) {
+
+        var fd = new FormData(this);
+        fd.append('source', 'smarvexai.com');
+
+        var primaryOk = false;
+        // 1) Fire Google Apps Script (no-cors so we don't block on CORS pre-flight)
+        try {
+          await fetch(GAS_URL, { method: 'POST', body: fd, mode: 'no-cors' });
+          primaryOk = true;
+        } catch (err) { /* will fall through to Web3Forms */ }
+
+        // 2) Also fire Web3Forms as a backup channel
+        var fallbackOk = false;
+        try {
+          var res = await fetch(W3F_URL, {
+            method: 'POST',
+            body: new FormData(this),
+            headers: { Accept: 'application/json' }
+          });
+          var json = await res.json();
+          fallbackOk = !!json.success;
+        } catch (err) { /* ignore */ }
+
+        if (primaryOk || fallbackOk) {
           this.reset();
           btn.style.display = 'none';
           document.getElementById('form-success').style.display = 'block';
