@@ -106,6 +106,35 @@ section{padding:88px 8vw}
 
 /* EXAMPLE PRODUCT */
 .example{background:var(--navy-mid)}
+
+/* CAPABILITY (replaces old example section) */
+.capability{background:var(--navy-mid);padding:90px 8vw;border-top:1px solid rgba(0,200,200,0.08);border-bottom:1px solid rgba(0,200,200,0.08)}
+.cap-inner{max-width:1200px;margin:0 auto}
+.cap-head{text-align:center;max-width:820px;margin:0 auto 60px}
+.cap-head .section-title{margin:0 auto 18px}
+.cap-head .section-title em{font-style:normal;color:var(--teal);font-weight:900}
+.cap-head .section-sub{margin:0 auto}
+.cap-nums{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:60px}
+.cap-num{padding:34px 28px;background:rgba(0,200,200,0.04);border:1px solid rgba(0,200,200,0.14);border-radius:18px;transition:border-color .25s, transform .25s}
+.cap-num:hover{border-color:rgba(0,200,200,0.4);transform:translateY(-4px)}
+.cap-num-v{font-family:'Inter',sans-serif;font-weight:900;font-size:3.4rem;line-height:1;color:var(--teal);letter-spacing:-0.02em;margin-bottom:12px}
+.cap-num-l{font-size:0.95rem;font-weight:700;color:var(--white);margin-bottom:8px}
+.cap-num-d{font-size:0.9rem;color:var(--grey);line-height:1.6;font-weight:300}
+.cap-industries{padding:34px 28px;background:rgba(0,200,200,0.03);border:1px solid rgba(0,200,200,0.12);border-radius:18px;margin-bottom:60px}
+.cap-ind-label{font-size:0.75rem;font-weight:700;color:var(--teal);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:20px;text-align:center}
+.cap-ind-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:10px}
+.cap-ind{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:rgba(0,200,200,0.06);border:1px solid rgba(0,200,200,0.18);border-radius:100px;color:var(--white);font-size:0.86rem;font-weight:500;transition:all .2s}
+.cap-ind:hover{background:rgba(0,200,200,0.14);border-color:var(--teal);transform:translateY(-1px)}
+.cap-approach{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-bottom:50px}
+.cap-step{padding:32px 28px;background:rgba(0,200,200,0.03);border:1px solid rgba(0,200,200,0.1);border-radius:18px;position:relative}
+.cap-step-ic{width:46px;height:46px;border-radius:12px;background:rgba(0,200,200,0.12);display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:18px}
+.cap-step-title{font-size:1.1rem;font-weight:700;color:var(--white);margin-bottom:10px}
+.cap-step-desc{font-size:0.9rem;color:var(--grey);line-height:1.65;font-weight:300}
+.cap-cta{display:flex;justify-content:center;gap:14px;flex-wrap:wrap}
+@media(max-width:860px){
+  .cap-nums,.cap-approach{grid-template-columns:1fr}
+  .cap-num-v{font-size:2.8rem}
+}
 .example-inner{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
 .example-label{display:inline-flex;align-items:center;gap:8px;background:rgba(0,200,200,0.08);border:1px solid rgba(0,200,200,0.2);border-radius:100px;padding:5px 14px;font-size:0.72rem;font-weight:700;color:var(--teal);letter-spacing:1px;text-transform:uppercase;margin-bottom:20px}
 .example-features{list-style:none;margin-top:28px;display:flex;flex-direction:column;gap:10px}
@@ -287,7 +316,7 @@ nav{position:sticky;top:0;z-index:100;background:rgba(11,21,32,0.95);backdrop-fi
   </button>
   <div class="nav-links">
     <a href="#what-we-do" onclick="document.querySelector('.nav-links').classList.remove('open');document.querySelector('.nav-hamburger').classList.remove('open')">Services</a>
-    <a href="#example" onclick="document.querySelector('.nav-links').classList.remove('open');document.querySelector('.nav-hamburger').classList.remove('open')">Solutions</a>
+    <a href="#capability" onclick="document.querySelector('.nav-links').classList.remove('open');document.querySelector('.nav-hamburger').classList.remove('open')">Capability</a>
     <a href="#how" onclick="document.querySelector('.nav-links').classList.remove('open');document.querySelector('.nav-hamburger').classList.remove('open')">How It Works</a>
     <a href="#about" onclick="document.querySelector('.nav-links').classList.remove('open');document.querySelector('.nav-hamburger').classList.remove('open')">About</a>
     <a href="/schools/" class="nav-schools" onclick="document.querySelector('.nav-links').classList.remove('open');document.querySelector('.nav-hamburger').classList.remove('open')">🏫 For Schools</a>
@@ -304,7 +333,7 @@ nav{position:sticky;top:0;z-index:100;background:rgba(11,21,32,0.95);backdrop-fi
     <div class="hero-btns">
       <a href="#contact" class="btn-primary">Start a Project</a>
       <a href="/schools/" class="btn-schools">🏫 For Schools →</a>
-      <a href="#example" class="btn-secondary">See an Example →</a>
+      <a href="#capability" class="btn-secondary">What we build →</a>
     </div>
   </div>
 </section>
@@ -396,46 +425,75 @@ nav{position:sticky;top:0;z-index:100;background:rgba(11,21,32,0.95);backdrop-fi
   </div>
 </section>
 
-<!-- EXAMPLE PRODUCT -->
-<section class="example" id="example">
-  <div class="example-inner">
-    <div>
-      <div class="example-label"> Live Solution Example</div>
-      <p class="section-tag">SchoolBot</p>
-      <h2 class="section-title">AI WhatsApp Assistant for Schools</h2>
-      <p>One of our flagship products — SchoolBot is a fully automated WhatsApp AI assistant built for schools. It handles the hundreds of daily parent messages that used to consume your admin team's entire day.</p>
-      <p>Parents get instant answers. Staff get their time back. Management gets a school that runs smarter.</p>
-      <ul class="example-list">
-        <li>Homework lookup by grade in Arabic &amp; English</li>
-        <li>Class schedules and exam timetables</li>
-        <li>Fees information and payment reminders</li>
-        <li>School announcements broadcast to all parents</li>
-        <li>Admissions enquiries handled automatically</li>
-        <li>Google Sheets backend — no tech skills needed for staff</li>
-        <li>Secure teacher panel to update content</li>
-        <li>Live within 48 hours</li>
-      </ul>
-      <a href="#contact" class="btn-primary" style="display:inline-block;margin-top:32px;">Get SchoolBot for Your School</a>
+<!-- CAPABILITY -->
+<section class="capability" id="capability">
+  <div class="cap-inner">
+    <div class="cap-head">
+      <p class="section-tag">Our Capability</p>
+      <h2 class="section-title">We find the gap.<br>We fill it with <em>automation</em>.</h2>
+      <p class="section-sub">Every business is losing hours a day to repetitive work — the kind no one should be doing. We spot those hours, design the automation, and deliver the full working solution. You don't buy consulting time. You buy a product that runs.</p>
     </div>
-    <div class="phone-wrap">
-      <div class="phone">
-        <div class="phone-header">
-          <div class="phone-avatar" style="background:linear-gradient(135deg,#00C8C8,#007A7A);font-size:0.7rem;font-weight:800;letter-spacing:-0.5px;">SX</div>
-          <div>
-            <div class="phone-name">SmarvexAI Assistant</div>
-            <div class="phone-sub">AI Automation · Always On</div>
-          </div>
-        </div>
-        <div class="phone-body">
-          <div class="msg msg-in">Hello! I am your SmarvexAI assistant. I can automate tasks, answer questions, and handle your business operations 24/7. How can I help?<div class="msg-time">Now</div></div>
-          <div class="msg msg-out">Can you handle parent messages for our school?<div class="msg-time">Now</div></div>
-          <div class="msg msg-in">Absolutely. I handle homework queries, fee reminders, exam schedules, and broadcast announcements — automatically, in Arabic and English.<div class="msg-time">Now</div></div>
-          <div class="msg msg-out">What about our customer support inbox?<div class="msg-time">Now</div></div>
-          <div class="msg msg-in">I can read, classify, and reply to customer messages instantly — across WhatsApp, email, or web. No human needed for routine queries.<div class="msg-time">Now</div></div>
-          <div class="msg msg-out">How fast can you go live?<div class="msg-time">Now</div></div>
-          <div class="msg msg-in">48 hours from kickoff to live deployment. Your business runs smarter from day one.<div class="msg-time">Now</div></div>
-        </div>
+
+    <!-- Big number cards -->
+    <div class="cap-nums">
+      <div class="cap-num">
+        <div class="cap-num-v">∞</div>
+        <div class="cap-num-l">Projects We Can Build</div>
+        <div class="cap-num-d">If a task is repetitive, structured, or rule-based — we can automate it. End-to-end.</div>
       </div>
+      <div class="cap-num">
+        <div class="cap-num-v">15+</div>
+        <div class="cap-num-l">Industries Covered</div>
+        <div class="cap-num-d">Education, healthcare, retail, logistics, hospitality, real estate, finance, legal and more.</div>
+      </div>
+      <div class="cap-num">
+        <div class="cap-num-v">48h</div>
+        <div class="cap-num-l">From Idea to Live</div>
+        <div class="cap-num-d">No multi-month contracts. We ship working solutions in days, not quarters.</div>
+      </div>
+    </div>
+
+    <!-- Industries strip -->
+    <div class="cap-industries">
+      <div class="cap-ind-label">Industries we build for</div>
+      <div class="cap-ind-grid">
+        <div class="cap-ind">🏫 Education</div>
+        <div class="cap-ind">🏥 Healthcare</div>
+        <div class="cap-ind">🛒 Retail &amp; E-commerce</div>
+        <div class="cap-ind">🚚 Logistics</div>
+        <div class="cap-ind">🏨 Hospitality</div>
+        <div class="cap-ind">🏢 Real Estate</div>
+        <div class="cap-ind">💼 Professional Services</div>
+        <div class="cap-ind">🏭 Manufacturing</div>
+        <div class="cap-ind">🏋️ Fitness &amp; Clubs</div>
+        <div class="cap-ind">💰 Finance</div>
+        <div class="cap-ind">⚖️ Legal</div>
+        <div class="cap-ind">+ more</div>
+      </div>
+    </div>
+
+    <!-- Approach -->
+    <div class="cap-approach">
+      <div class="cap-step">
+        <div class="cap-step-ic">🔍</div>
+        <div class="cap-step-title">We find the gap</div>
+        <div class="cap-step-desc">Two calls. We map every hour your team spends on work a system should be doing — parent queries, invoice entry, client intake, status updates, inventory counts, scheduling — and we name the one that will pay back the fastest.</div>
+      </div>
+      <div class="cap-step">
+        <div class="cap-step-ic">⚙️</div>
+        <div class="cap-step-title">We build the solution</div>
+        <div class="cap-step-desc">Not a report, not a slide deck, not a prototype — a real system that runs in production, integrated with the tools your team already uses: WhatsApp, Google Sheets, email, your CRM, your database.</div>
+      </div>
+      <div class="cap-step">
+        <div class="cap-step-ic">🚀</div>
+        <div class="cap-step-title">You stop spending time</div>
+        <div class="cap-step-desc">What used to take four people six hours a day now happens on its own — 24/7, bilingual, always on. You keep the people. You give them the interesting work back.</div>
+      </div>
+    </div>
+
+    <div class="cap-cta">
+      <a href="#contact" class="btn-primary">Start a Project</a>
+      <a href="/schools/" class="btn-secondary">See it in action →</a>
     </div>
   </div>
 </section>
