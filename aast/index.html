@@ -637,6 +637,55 @@ html[lang="ar"] .review-row { direction: rtl; }
 html[lang="ar"] .app-progress { flex-direction: row-reverse; }
 html[lang="ar"] .step-line-seg { flex-direction: row-reverse; }
 
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE — mobile ≤ 640 px
+═══════════════════════════════════════════ */
+@media (max-width: 640px) {
+
+  /* Auth screen */
+  .auth-box { padding: 24px 16px; border-radius: 16px; }
+
+  /* Stack 2-column form rows to 1 column */
+  .auth-form-row,
+  .form-grid,
+  .quick-actions-grid { grid-template-columns: 1fr !important; }
+
+  /* Portal header — tighter on mobile */
+  .portal-header { padding: 0 14px; height: 56px; }
+  .ph-title  { display: none; }          /* hide "Admissions Portal" text block */
+  .ph-divider { display: none; }         /* hide divider between logos           */
+  .ph-logo-smarvex { height: 22px; }
+  .ph-logo-aast  { height: 32px; width: 32px; }
+  .ph-name { display: none; }            /* hide name text in user chip          */
+  .ph-user { padding: 5px 8px; }
+
+  /* Portal body — reduce padding */
+  .portal-main { padding: 16px 14px 12px; }
+
+  /* Welcome banner — keep emoji from ballooning */
+  .welcome-banner { padding: 16px; }
+  .welcome-banner::after { font-size: 36px; right: 10px; bottom: 8px; }
+  .welcome-banner h2 { font-size: 16px; }
+
+  /* Wizard steps — shrink labels so they fit */
+  .ws-label { font-size: 9px; letter-spacing: 0; }
+  .ws-num   { width: 26px; height: 26px; font-size: 11px; }
+  .ws-line  { margin: 0 3px; }
+
+  /* Status action buttons — stack vertically on very small screens */
+  .status-actions { flex-direction: column; }
+
+  /* Acceptance letter — stack signature blocks */
+  .letter-sign   { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .letter-sign-line { width: 80px; }
+
+  /* Readiness meter card — stack ring + text */
+  .readiness-card { flex-direction: column; align-items: flex-start; gap: 12px; }
+
+  /* Page header */
+  .page-header h2 { font-size: 16px; }
+}
 </style>
 </head>
 <body>
@@ -848,7 +897,7 @@ html[lang="ar"] .step-line-seg { flex-direction: row-reverse; }
       </div>
 
       <!-- Quick Actions -->
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+      <div class="quick-actions-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
         <button class="btn btn-primary btn-block" data-i18n="btn_upload_doc" onclick="goTo('upload')">📎 Upload Document</button>
         <button class="btn btn-outline btn-block" data-i18n="btn_track_status" onclick="goTo('status')">📋 Track Status</button>
       </div>
