@@ -90,6 +90,8 @@ body{background:var(--navy);color:var(--text);font-family:'Segoe UI',system-ui,s
 .ph-user{display:flex;align-items:center;gap:8px;background:var(--navy3);border:1px solid var(--border);padding:6px 12px;border-radius:8px;cursor:pointer;}
 .ph-avatar{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--teal),var(--teal2));display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--navy);}
 .ph-name{font-size:12px;font-weight:600;}
+.ph-signout{width:36px;height:36px;background:transparent;border:1.5px solid rgba(239,68,68,0.4);border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;color:var(--danger);transition:all .2s;}
+.ph-signout:hover{background:rgba(239,68,68,0.12);border-color:var(--danger);}
 
 /* ── BOTTOM NAV (mobile-first style) ── */
 .bottom-nav{
@@ -786,9 +788,10 @@ html[lang="ar"] .step-line-seg { flex-direction: row-reverse; }
         🔔<div class="ph-notif-dot"></div>
       </div>
       <div class="ph-user">
-        <div class="ph-avatar" id="ph-initials">AH</div>
+        <div class="ph-avatar" id="ph-initials">KE</div>
         <span class="ph-name" id="ph-name">Kareem ElMoghazy</span>
       </div>
+      <div class="ph-signout" onclick="signOut()" title="Sign Out" data-i18n-title="signout_tooltip">🚪</div>
     </div>
   </header>
 
@@ -1388,6 +1391,18 @@ function doLogin() {
   document.getElementById('screen-portal').classList.add('active');
   document.getElementById('chatBtn').style.display = 'flex';
 }
+function signOut() {
+  document.getElementById('screen-portal').classList.remove('active');
+  document.getElementById('screen-auth').classList.add('active');
+  document.getElementById('chatBtn').style.display = 'none';
+  // Reset login fields
+  const loginId   = document.getElementById('login-id');
+  const loginPass = document.getElementById('login-pass');
+  if (loginId)   loginId.value   = '';
+  if (loginPass) loginPass.value = '';
+  // Switch back to login tab
+  switchTab('login');
+}
 function doRegister() {
   const steps = ['Creating your account...','Validating National ID...','Setting up your portal...','Done!'];
   let i = 0;
@@ -1749,6 +1764,7 @@ const translations = {
     btn_manage: 'Manage →',
     btn_upload_doc: '📎 Upload Document',
     btn_track_status: '📋 Track Status',
+    signout_tooltip: 'Sign Out',
     apply_title: 'New Application',
     docs_title: 'My Documents',
     status_title: 'Application Status',
@@ -1787,6 +1803,7 @@ const translations = {
     btn_manage: 'إدارة ←',
     btn_upload_doc: '📎 رفع مستند',
     btn_track_status: '📋 تتبع الحالة',
+    signout_tooltip: 'تسجيل الخروج',
     apply_title: 'طلب جديد',
     docs_title: 'مستنداتي',
     status_title: 'حالة الطلب',
@@ -1811,6 +1828,12 @@ function setLang(lang) {
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
     if (t[key] !== undefined) el.textContent = t[key];
+  });
+
+  // Update title attributes (tooltips)
+  document.querySelectorAll('[data-i18n-title]').forEach(el => {
+    const key = el.getAttribute('data-i18n-title');
+    if (t[key] !== undefined) el.title = t[key];
   });
 
   // Set HTML lang + dir
